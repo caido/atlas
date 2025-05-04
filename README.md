@@ -1,75 +1,63 @@
-# Nuxt Minimal Starter
+# Caido Atlas
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A public directory of learning resources related to Caido, helping users explore tutorials, labs, videos, and other educational content.
 
-## Setup
+## Getting Started
 
-Make sure to install dependencies:
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+3. Start the development server:
+   ```bash
+   pnpm dev
+   ```
 
-```bash
-# npm
-npm install
+## Contributing Content
 
-# pnpm
-pnpm install
+To contribute content to Caido Atlas:
 
-# yarn
-yarn install
+1. Create a new Markdown file in the appropriate directory:
+   - `/content/official/` for Caido team-created content
+   - `/content/community/` for community-submitted content
 
-# bun
-bun install
+2. Use the following frontmatter format:
+
+```yaml
+---
+title: "Your Resource Title"
+description: "A brief description of the resource."
+format: [article, video, lab]
+language: ["en"]
+tags: [tag1, tag2]
+source: https://example.com
+author: "Your Name"
+platform: "Platform Name" # Optional
+---
 ```
 
-## Development Server
+3. If the content is hosted externally, leave the body empty. If you're providing the content directly, write it in Markdown format below the frontmatter.
 
-Start the development server on `http://localhost:3000`:
+4. Submit a pull request with your changes.
 
-```bash
-# npm
-npm run dev
+## Content Guidelines
 
-# pnpm
-pnpm dev
+- Use lowercase kebab-case for filenames (e.g., `httpql-guide.md`)
+- Keep descriptions concise (1-2 sentences)
+- Use relevant tags to help with discoverability
+- Ensure all external links are valid and accessible
+- Follow the Markdown formatting guidelines
 
-# yarn
-yarn dev
+## Development
 
-# bun
-bun run dev
-```
+This project uses:
+- Nuxt 3
+- @nuxt/content for content management
+- TailwindCSS for styling
+- PrimeVue for UI components
+- Fuse.js for search functionality
 
-## Production
+## License
 
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+MIT

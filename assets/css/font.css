@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Work Sans';
+    src: url('/fonts/WorkSans-SemiBold.ttf');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url('/fonts/WorkSans-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+html {
+    font-family: 'Work Sans', sans-serif;
+}
