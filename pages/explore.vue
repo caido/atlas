@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import IconField from 'primevue/iconfield'
 import Tag from 'primevue/tag'
 import { ref, computed } from 'vue'
 
@@ -83,18 +84,27 @@ const clearFilters = () => {
 
 <template>
   <div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-8">
+      <img src="/images/name.color.webp" alt="Logo" class="h-8" >
+      <span class="text-2xl relative top-0.5 text-surface-200">Atlas</span>
+    </div>
+
     <!-- Search -->
     <div class="mb-8">
-      <InputText
-        v-model="searchQuery"
-        placeholder="Search resources..."
-        class="w-full"
-      />
+      <IconField>
+        <InputIcon class="fas fa-magnifying-glass" />
+        <InputText
+          v-model="searchQuery"
+          placeholder="Search resources..."
+          class="w-full"
+        />
+      </IconField>
     </div>
 
     <!-- Filters -->
     <div class="mb-8">
-      <h3 class="text-lg font-medium mb-4">Filter by:</h3>
+      <h3 class="font-medium text-surface-400">Filter by:</h3>
       
       <div class="flex items-center gap-6 mb-6">
         <!-- Format Filter -->
