@@ -188,32 +188,36 @@ const clearFilters = () => {
         No resources found matching your criteria.
       </div>
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card v-for="item in filteredContent" :key="item.path" class="h-full">
-          <template #header>
-            <div class="flex items-center gap-2 p-4">
-              <span v-for="format in item.format" :key="format" class="text-surface-400">
-                {{ format }}
-              </span>
-            </div>
-          </template>
-          <template #title>
-            <NuxtLink :to="item.path" class="hover:text-primary-400 transition-colors">
-              {{ item.title }}
-            </NuxtLink>
-          </template>
-          <template #subtitle>
-            <div class="flex items-center gap-2 text-sm text-surface-400">
-              <span>By {{ item.author }}</span>
-              <span v-if="item.platform">on {{ item.platform }}</span>
-            </div>
-          </template>
-          <template #content>
-            <p class="text-surface-400 mb-4">{{ item.description }}</p>
-            <div class="flex flex-wrap gap-2">
-              <Tag v-for="tag in item.tags" :key="tag" severity="info" :value="tag" />
-            </div>
-          </template>
-        </Card>
+        <NuxtLink v-for="item in filteredContent" :key="item.path" :to="item.path" class="block">
+          <Card class="h-full hover:bg-surface-400/20 transition-colors cursor-pointer">
+            <template #title>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-lg font-medium">
+                  {{ item.title }}
+                </span>
+                <div class="flex items-center gap-2">
+                  <span v-for="format in item.format" :key="format" class="text-surface-400 text-base">
+                    <i v-if="format === 'Video'" v-tooltip.top="'Video'" class="fa-solid fa-video"/>
+                    <i v-else-if="format === 'Article'" v-tooltip.top="'Article'" class="fa-solid fa-newspaper"/>
+                    <i v-else-if="format === 'Lab'" v-tooltip.top="'Lab'" class="fa-solid fa-flask"/>
+                  </span>
+                </div>
+              </div>
+            </template>
+            <template #subtitle>
+              <div class="flex items-center gap-2 text-sm text-surface-400">
+                <span>By {{ item.author }}</span>
+                <span v-if="item.platform">on {{ item.platform }}</span>
+              </div>
+            </template>
+            <template #content>
+              <p class="text-surface-400 mb-4">{{ item.description }}</p>
+              <div class="flex flex-wrap gap-2">
+                <Tag v-for="tag in item.tags" :key="tag" severity="info" :value="tag" />
+              </div>
+            </template>
+          </Card>
+        </NuxtLink>
       </div>
     </div>
   </div>
