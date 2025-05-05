@@ -80,14 +80,31 @@ const clearFilters = () => {
   selectedPlatforms.value = []
   selectedTags.value = []
 }
+
+const openGithub = () => {
+  window.open('https://github.com/caido/atlas', '_blank')
+}
 </script>
 
 <template>
   <div class="container mx-auto px-4 py-8">
     <!-- Header -->
-    <div class="flex items-center gap-4 mb-8">
-      <img src="/images/name.color.webp" alt="Logo" class="h-8" >
-      <span class="text-2xl relative top-0.5 text-surface-200">Atlas</span>
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-4">
+        <img src="/images/name.color.webp" alt="Logo" class="h-8" >
+        <span class="text-2xl relative top-0.5 text-surface-200">Atlas</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <Button 
+          icon="fa-solid fa-plus" 
+          label="Submit a Resource" 
+          @click="openGithub"
+        />
+        <a href="https://docs.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Docs</a>
+        <a href="https://developer.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Developer</a>
+        <a href="https://caido.io/plugins" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Plugins</a>
+        <a href="https://caido.io/download" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Download</a>
+      </div>
     </div>
 
     <!-- Search -->
