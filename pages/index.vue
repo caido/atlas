@@ -26,6 +26,11 @@ const handleSearch = () => {
     query
   })
 }
+
+const handleFilterClick = (filterId: string) => {
+  activeFilter.value = filterId
+  handleSearch()
+}
 </script>
 
 <template>
@@ -68,7 +73,7 @@ const handleSearch = () => {
           severity="contrast"
           text
           class="flex items-center gap-2"
-          @click="activeFilter = filter.id"
+          @click="handleFilterClick(filter.id)"
         >
           <i :class="filter.icon"/>
           <span>{{ filter.label }}</span>
