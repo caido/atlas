@@ -88,28 +88,31 @@ const openGithub = () => {
 </script>
 
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-4 py-4 sm:py-8">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-8">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-4 mb-6 sm:mb-8">
       <div class="flex items-center gap-4">
         <img src="/images/name.color.webp" alt="Logo" class="h-8" >
         <span class="text-2xl relative top-0.5 text-surface-200">Atlas</span>
       </div>
-      <div class="flex items-center gap-6">
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center gap-4 sm:gap-6">
         <Button 
           icon="fa-solid fa-plus" 
           label="Submit a Resource" 
+          class="w-full sm:w-auto"
           @click="openGithub"
         />
-        <a href="https://docs.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Docs</a>
-        <a href="https://developer.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Developer</a>
-        <a href="https://caido.io/plugins" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Plugins</a>
-        <a href="https://caido.io/download" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Download</a>
+        <div class="flex flex-wrap gap-4 sm:gap-6">
+          <a href="https://docs.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Docs</a>
+          <a href="https://developer.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Developer</a>
+          <a href="https://caido.io/plugins" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Plugins</a>
+          <a href="https://caido.io/download" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Download</a>
+        </div>
       </div>
     </div>
 
     <!-- Search -->
-    <div class="mb-8">
+    <div class="mb-6 sm:mb-8">
       <IconField>
         <InputIcon class="fas fa-magnifying-glass" />
         <InputText
@@ -121,12 +124,12 @@ const openGithub = () => {
     </div>
 
     <!-- Filters -->
-    <div class="mb-8">
-      <h3 class="font-medium text-surface-400">Filter by:</h3>
+    <div class="mb-6 sm:mb-8">
+      <h3 class="font-medium text-surface-400 mb-4">Filter by:</h3>
       
-      <div class="flex items-center gap-6 mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-6 mb-6">
         <!-- Format Filter -->
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-4">
           <div v-for="format in availableFormats" :key="format" class="flex items-center">
             <Checkbox
               v-model="selectedFormats"
@@ -139,51 +142,62 @@ const openGithub = () => {
         </div>
 
         <!-- Language Filter -->
-        <div class="w-48">
+        <div class="w-full sm:w-48">
           <FloatLabel class="[&_label]:!left-0">
             <MultiSelect
               v-model="selectedLanguages"
               filter
               :options="availableLanguages"
               class="w-full"
-              :max-selected-labels="3"
+              :max-selected-labels="2"
             />
             <label>Language</label>
           </FloatLabel>
         </div>
 
         <!-- Platform Filter -->
-        <div class="w-48">
+        <div class="w-full sm:w-48">
           <FloatLabel class="[&_label]:!left-0">
             <MultiSelect
               v-model="selectedPlatforms"
               filter
               :options="availablePlatforms"
               class="w-full"
-              :max-selected-labels="3"
+              :max-selected-labels="2"
             />
             <label>Platform</label>
           </FloatLabel>
         </div>
 
         <!-- Tags Filter -->
-        <div class="w-48">
+        <div class="w-full sm:w-48">
           <FloatLabel class="[&_label]:!left-0">
             <MultiSelect
               v-model="selectedTags"
               :options="topTags"
               class="w-full"
               filter
-              :max-selected-labels="0"
+              :max-selected-labels="2"
             />
             <label>Tags</label>
           </FloatLabel>
         </div>
+
+        <Button
+          v-if="searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 || selectedPlatforms.length > 0 || selectedTags.length > 0"
+          severity="danger"
+          text
+          class="w-full sm:w-auto"
+          @click="clearFilters"
+        >
+          <i class="fa-solid fa-xmark mr-2" />
+          Clear all filters
+        </Button>
       </div>
 
       <!-- Search Context -->
-      <div v-if="filteredContent.length > 0" class="mb-6 flex items-center justify-between">
-        <div class="text-surface-400">
+      <div v-if="filteredContent.length > 0" class="mb-6">
+        <div class="text-surface-400 text-sm sm:text-base">
           <span>Showing {{ filteredContent.length }} result{{ filteredContent.length === 1 ? '' : 's' }}</span>
           <span v-if="searchQuery"> for "{{ searchQuery }}"</span>
           <span v-if="selectedFormats.length > 0">
@@ -199,22 +213,13 @@ const openGithub = () => {
             {{ searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 || selectedPlatforms.length > 0 ? ' and' : ' for' }} {{ selectedTags.join(', ') }}
           </span>
         </div>
-        <Button
-          v-if="searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 || selectedPlatforms.length > 0 || selectedTags.length > 0"
-          text
-          severity="secondary"
-          @click="clearFilters"
-        >
-          <i class="fa-solid fa-xmark mr-2" />
-          Clear all filters
-        </Button>
       </div>
 
       <!-- Results -->
       <div v-if="filteredContent.length === 0" class="text-center text-surface-400">
         No resources found matching your criteria.
       </div>
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <NuxtLink v-for="item in filteredContent" :key="item.path" :to="item.path" class="block">
           <Card class="h-full hover:bg-surface-400/20 transition-colors cursor-pointer">
             <template #title>
