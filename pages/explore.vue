@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import IconField from 'primevue/iconfield'
 import Tag from 'primevue/tag'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import FloatLabel from 'primevue/floatlabel'
+import { useRoute } from 'vue-router'
+import { NuxtLink } from '#components'
 
 const searchQuery = ref('')
 const selectedFormats = ref<string[]>([])
@@ -13,6 +15,30 @@ const selectedTags = ref<string[]>([])
 const availableFormats = ['Video', 'Article', 'Lab'] as const
 const availableLanguages = ['English', 'French', 'Spanish', 'German', 'Japanese']
 const availablePlatforms = ['Security Academy', 'Cloud University', 'Tech Institute', 'Online Learning']
+
+// Parse query parameters and set initial values
+const route = useRoute()
+const formatMap = {
+  'videos': 'Video',
+  'articles': 'Article',
+  'labs': 'Lab'
+}
+
+onMounted(() => {
+  // Set search query if present
+  if (route.query.q) {
+    searchQuery.value = route.query.q as string
+  }
+
+  // Set format filter if present
+  if (route.query.format) {
+    const format = route.query.format as string
+    const mappedFormat = formatMap[format as keyof typeof formatMap]
+    if (mappedFormat) {
+      selectedFormats.value = [mappedFormat]
+    }
+  }
+})
 
 const mockContent = [
   {
@@ -91,10 +117,10 @@ const openGithub = () => {
   <div class="container mx-auto px-4 py-4 sm:py-8">
     <!-- Header -->
     <div class="flex flex-col lg:flex-row items-center justify-between gap-4 mb-6 sm:mb-8">
-      <div class="flex items-center gap-4">
+      <NuxtLink to="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
         <img src="/images/name.color.webp" alt="Logo" class="h-8" >
         <span class="text-2xl relative top-0.5 text-surface-200">Atlas</span>
-      </div>
+      </NuxtLink>
       <div class="flex flex-col-reverse sm:flex-row sm:items-center gap-4 sm:gap-6">
         <Button 
           icon="fa-solid fa-plus" 

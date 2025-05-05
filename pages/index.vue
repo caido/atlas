@@ -12,8 +12,19 @@ const filters = [
 ]
 
 const handleSearch = () => {
-  // Search functionality will be implemented later
-  console.log('Searching for:', searchQuery.value)
+  const query: Record<string, string> = {}
+  
+  if (searchQuery.value) {
+    query.q = searchQuery.value
+  }
+  if (activeFilter.value !== 'all') {
+    query.format = activeFilter.value
+  }
+
+  navigateTo({
+    path: '/explore',
+    query
+  })
 }
 </script>
 
