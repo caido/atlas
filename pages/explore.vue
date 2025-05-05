@@ -2,6 +2,7 @@
 import IconField from 'primevue/iconfield'
 import Tag from 'primevue/tag'
 import { ref, computed } from 'vue'
+import FloatLabel from 'primevue/floatlabel'
 
 const searchQuery = ref('')
 const selectedFormats = ref<string[]>([])
@@ -139,35 +140,44 @@ const openGithub = () => {
 
         <!-- Language Filter -->
         <div class="w-48">
-          <Dropdown
-            v-model="selectedLanguages"
-            :options="availableLanguages"
-            placeholder="Select Language"
-            class="w-full"
-            :multiple="true"
-          />
+          <FloatLabel class="[&_label]:!left-0">
+            <MultiSelect
+              v-model="selectedLanguages"
+              filter
+              :options="availableLanguages"
+              class="w-full"
+              :max-selected-labels="3"
+            />
+            <label>Language</label>
+          </FloatLabel>
         </div>
 
         <!-- Platform Filter -->
         <div class="w-48">
-          <Dropdown
-            v-model="selectedPlatforms"
-            :options="availablePlatforms"
-            placeholder="Select Platform"
-            class="w-full"
-            :multiple="true"
-          />
+          <FloatLabel class="[&_label]:!left-0">
+            <MultiSelect
+              v-model="selectedPlatforms"
+              filter
+              :options="availablePlatforms"
+              class="w-full"
+              :max-selected-labels="3"
+            />
+            <label>Platform</label>
+          </FloatLabel>
         </div>
 
         <!-- Tags Filter -->
         <div class="w-48">
-          <Dropdown
-            v-model="selectedTags"
-            :options="topTags"
-            placeholder="Select Tags"
-            class="w-full"
-            :multiple="true"
-          />
+          <FloatLabel class="[&_label]:!left-0">
+            <MultiSelect
+              v-model="selectedTags"
+              :options="topTags"
+              class="w-full"
+              filter
+              :max-selected-labels="0"
+            />
+            <label>Tags</label>
+          </FloatLabel>
         </div>
       </div>
 
