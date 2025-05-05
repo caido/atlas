@@ -82,10 +82,3 @@ const handleFilterClick = (filterId: string) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.min-h-screen {
-  min-height: 100vh;
-}
-</style>
-
