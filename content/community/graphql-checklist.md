@@ -4,7 +4,7 @@ description: "A comprehensive checklist for securing GraphQL APIs."
 format: [article]
 language: ["en"]
 tags: [graphql, security, checklist]
-source: https://github.com/caido/security-checklist
+url: https://github.com/caido/security-checklist
 author: "Security Researcher"
 platform: "GitHub"
 ---

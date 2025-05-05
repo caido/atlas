@@ -46,7 +46,16 @@ export default defineNuxtConfig({
       ],
       htmlAttrs: {
         "data-mode": "dark"
-      }
+      },
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
+        }
+      ]
     },
+  },
+  typescript: {
+    typeCheck: true
   }
 })
