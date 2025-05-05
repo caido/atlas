@@ -123,7 +123,7 @@ const openGithub = () => {
       </NuxtLink>
       <div class="flex flex-col-reverse sm:flex-row sm:items-center gap-4 sm:gap-6">
         <Button 
-          icon="fa-solid fa-plus" 
+          icon="fa-solid fa-external-link" 
           label="Submit a Resource" 
           class="w-full sm:w-auto"
           @click="openGithub"
@@ -222,7 +222,7 @@ const openGithub = () => {
       </div>
 
       <!-- Search Context -->
-      <div v-if="filteredContent.length > 0" class="mb-6">
+      <div  class="mb-6">
         <div class="text-surface-400 text-sm sm:text-base">
           <span>Showing {{ filteredContent.length }} result{{ filteredContent.length === 1 ? '' : 's' }}</span>
           <span v-if="searchQuery"> for "{{ searchQuery }}"</span>
@@ -242,8 +242,9 @@ const openGithub = () => {
       </div>
 
       <!-- Results -->
-      <div v-if="filteredContent.length === 0" class="text-center text-surface-400">
-        No resources found matching your criteria.
+      <div v-if="filteredContent.length === 0" class="text-center text-surface-400 flex flex-col items-center gap-4">
+        <img src="/images/undraw_searching.svg" alt="No results found" class="w-64 h-64 mt-8 grayscale opacity-50" >
+        <p>No resources found matching your criteria.</p>
       </div>
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <NuxtLink v-for="item in filteredContent" :key="item.path" :to="item.path" class="block">
