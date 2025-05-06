@@ -14,6 +14,7 @@ export default defineContentConfig({
         languages: z.array(z.string()),
         tags: z.array(z.string()),
         url: z.string(),
+        publishedAt: z.date(),
       }),
     }),
   },

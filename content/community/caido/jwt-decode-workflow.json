@@ -5,5 +5,6 @@
   "languages": ["en"],
   "tags": ["jwt", "workflow", "automation", "security", "passive"],
   "author": "Caido",
+  "publishedAt": "2025-05-06",
   "url": "https://docs.caido.io/tutorials/jwt_decode.html"
 } 

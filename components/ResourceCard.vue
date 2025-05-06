@@ -12,6 +12,7 @@ interface Resource {
   description: string
   tags: string[]
   extension: string
+  publishedAt?: Date
 }
 
 const props = defineProps<{
@@ -45,6 +46,7 @@ const isInternalLink = computed(() => props.item.extension === 'md')
           <div class="flex items-center justify-between text-sm text-surface-400">
             <div class="flex items-center gap-2">
               <span v-if="item.author">By <span class="font-bold">{{ item.author }}</span></span>
+              <span v-if="item.publishedAt" class="text-surface-400">• {{ new Date(item.publishedAt).toLocaleDateString() }}</span>
               <span v-if="item.platform">on <span class="font-bold">{{ item.platform }}</span></span>
             </div>
             <div class="flex items-center gap-2">
