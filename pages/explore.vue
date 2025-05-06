@@ -42,29 +42,29 @@ onMounted(() => {
 
 const mockContent = [
   {
-    path: '/resources/security-basics',
+    path: '/',
     title: 'Security Fundamentals',
     author: 'John Doe',
     platform: 'Security Academy',
     description: 'A comprehensive guide to understanding basic security concepts and best practices.',
-    format: ['PDF', 'Video'],
+    format: ['Video'],
     tags: ['Security', 'Development']
   },
   {
-    path: '/resources/cloud-architecture',
+    path: '/',
     title: 'Cloud Architecture Patterns',
     author: 'Jane Smith',
     platform: 'Cloud University',
     description: 'Learn about modern cloud architecture patterns and their implementation.',
-    format: ['Article', 'Course'],
+    format: ['Article', 'Video'],
     tags: ['Cloud', 'DevOps']
   },
   {
-    path: '/resources/ai-ml',
+    path: '/',
     title: 'AI and Machine Learning Basics',
     author: 'Alex Johnson',
     description: 'Introduction to artificial intelligence and machine learning concepts.',
-    format: ['Book', 'Video'],
+    format: ['Article', 'Lab'],
     tags: ['AI', 'Development']
   }
 ]
@@ -163,7 +163,7 @@ const openGithub = () => {
               :binary="false"
               class="mr-2"
             />
-            <span>{{ format }}</span>
+            <span class="text-surface-300">{{ format }}</span>
           </div>
         </div>
 
@@ -248,29 +248,29 @@ const openGithub = () => {
       </div>
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <NuxtLink v-for="item in filteredContent" :key="item.path" :to="item.path" class="block">
-          <Card class="h-full hover:bg-surface-400/20 transition-colors cursor-pointer">
+          <Card class="h-full hover:bg-surface-400/20 transition-colors cursor-pointer" pt:caption:class="flex flex-col">
             <template #title>
-              <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center justify-between">
                 <span class="text-lg font-medium">
                   {{ item.title }}
                 </span>
                 <div class="flex items-center gap-2">
                   <span v-for="format in item.format" :key="format" class="text-surface-400 text-base">
-                    <i v-if="format === 'Video'" v-tooltip.top="'Video'" class="fa-solid fa-video"/>
-                    <i v-else-if="format === 'Article'" v-tooltip.top="'Article'" class="fa-solid fa-newspaper"/>
-                    <i v-else-if="format === 'Lab'" v-tooltip.top="'Lab'" class="fa-solid fa-flask"/>
+                    <i v-if="format === 'Video'" v-tooltip.top="'Video'" class="fa-solid fa-video text-red-500"/>
+                    <i v-else-if="format === 'Article'" v-tooltip.top="'Article'" class="fa-solid fa-newspaper text-blue-500"/>
+                    <i v-else-if="format === 'Lab'" v-tooltip.top="'Lab'" class="fa-solid fa-flask text-green-500"/>
                   </span>
                 </div>
               </div>
             </template>
             <template #subtitle>
               <div class="flex items-center gap-2 text-sm text-surface-400">
-                <span>By {{ item.author }}</span>
-                <span v-if="item.platform">on {{ item.platform }}</span>
+                <span>By <span class="font-bold">{{ item.author }}</span></span>
+                <span v-if="item.platform">on <span class="font-bold">{{ item.platform }}</span></span>
               </div>
             </template>
             <template #content>
-              <p class="text-surface-400 mb-4">{{ item.description }}</p>
+              <p class="text-surface-200 my-4">{{ item.description }}</p>
               <div class="flex flex-wrap gap-2">
                 <Tag v-for="tag in item.tags" :key="tag" severity="info" :value="tag" />
               </div>
