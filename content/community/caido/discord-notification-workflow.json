@@ -1,6 +1,6 @@
 {
   "title": "Discord Notification Workflow",
-  "description": "Set up automated notifications to Discord channels for security testing events and findings.",
+  "description": "Learn how to use an Active Workflow to send a notification to Discord",
   "format": ["article"],
   "languages": ["en"],
   "tags": ["discord", "notification", "workflow", "automation", "integration"],

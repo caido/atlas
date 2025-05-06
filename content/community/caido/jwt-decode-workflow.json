@@ -1,9 +1,9 @@
 {
   "title": "JWT Decode Workflow",
-  "description": "Learn how to decode and analyze JWT tokens using automated workflows.",
+  "description": "Learn how to build a JWT decoder using convert workflows.",
   "format": ["article"],
   "languages": ["en"],
-  "tags": ["jwt", "workflow", "automation", "security"],
+  "tags": ["jwt", "workflow", "automation", "security", "passive"],
   "author": "Caido",
   "url": "https://docs.caido.io/tutorials/jwt_decode.html"
 } 

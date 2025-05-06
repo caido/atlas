@@ -1,9 +1,9 @@
 {
   "title": "MD5 Hash Workflow",
-  "description": "Create automated workflows to generate and verify MD5 hashes for security testing.",
+  "description": "Create a convert workflow to generate MD5 hashes.",
   "format": ["article"],
   "languages": ["en"],
-  "tags": ["hash", "md5", "workflow", "automation"],
+  "tags": ["hash", "md5", "workflow", "automation", "convert"],
   "author": "Caido",
   "url": "https://docs.caido.io/tutorials/md5_hash.html"
 } 
