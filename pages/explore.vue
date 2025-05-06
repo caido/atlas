@@ -36,6 +36,7 @@ const formatMap = {
 // Fetch content using Nuxt Content
 const { data: content } = await useAsyncData('community-content', () => {
   return queryCollection('community')
+    .order('publishedAt', 'DESC')
     .all()
 })
 
