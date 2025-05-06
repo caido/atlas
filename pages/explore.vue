@@ -186,7 +186,7 @@ const clearFilters = () => {
           class="w-full sm:w-auto"
           @click="clearFilters"
         >
-          <i class="fa-solid fa-xmark mr-2" />
+          <i class="fa-solid fa-rotate-left mr-2" />
           Clear all filters
         </Button>
       </div>
@@ -214,7 +214,11 @@ const clearFilters = () => {
       <!-- Results -->
       <div v-if="filteredContent.length === 0" class="text-center text-surface-400 flex flex-col items-center gap-4">
         <img src="/images/undraw_searching.svg" alt="No results found" class="w-64 h-64 mt-8 grayscale invert contrast-[20%] opacity-50" >
-        <p>No resources found matching your criteria.</p>
+        <p>No results found matching your criteria.</p>
+        <Button text severity="danger" class="text-sm" @click="clearFilters">
+          <i class="fa-solid fa-rotate-left mr-2" />
+          Clear all filters
+        </Button>
       </div>
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <ResourceCard v-for="item in filteredContent" :key="item.path" :item="item" />
