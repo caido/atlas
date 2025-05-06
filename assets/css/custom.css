@@ -1,6 +1,0 @@
-.text-gradient {
-    background-clip: text;
-    background-image: linear-gradient(to right, hsl(var(--c-secondary-400)) 50%, hsl(var(--c-primary-800)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
