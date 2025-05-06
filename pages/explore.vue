@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import IconField from 'primevue/iconfield'
 import { ref, computed, onMounted } from 'vue'
-import FloatLabel from 'primevue/floatlabel'
 import MultiSelect from 'primevue/multiselect'
 import { useRoute } from 'vue-router'
 import { queryCollection } from '#imports'
 import ResourceCard from '~/components/ResourceCard.vue'
 
-const searchQuery = ref('')
-const selectedFormats = ref<string[]>([])
-const selectedLanguages = ref<string[]>()
-const selectedPlatforms = ref<string[]>()
-const selectedTags = ref<string[]>()
+interface FilterState {
+  searchQuery: string
+  formats: string[]
+  languages: string[] | undefined
+  platforms: string[] | undefined
+  tags: string[] | undefined
+}
+
+const filterState = ref<FilterState>({
+  searchQuery: '',
+  formats: [],
+  languages: undefined,
+  platforms: undefined,
+  tags: undefined
+})
 
 const availableFormats = ['video', 'article', 'lab'] as const
 const availableLanguages = ['English', 'French', 'Spanish', 'German', 'Japanese']
@@ -54,7 +63,7 @@ const uniqueTags = computed(() => {
 onMounted(() => {
   // Set search query if present
   if (route.query.q) {
-    searchQuery.value = route.query.q as string
+    filterState.value.searchQuery = route.query.q as string
   }
 
   // Set format filter if present
@@ -62,7 +71,7 @@ onMounted(() => {
     const format = route.query.format as string
     const mappedFormat = formatMap[format as keyof typeof formatMap]
     if (mappedFormat) {
-      selectedFormats.value = [mappedFormat]
+      filterState.value.formats = [mappedFormat]
     }
   }
 })
@@ -71,28 +80,30 @@ const filteredContent = computed(() => {
   if (!content.value) return []
   
   return content.value.filter(item => {
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                         item.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const matchesSearch = item.title.toLowerCase().includes(filterState.value.searchQuery.toLowerCase()) ||
+                         item.description.toLowerCase().includes(filterState.value.searchQuery.toLowerCase())
     
-    const matchesFormats = selectedFormats.value.length === 0 || 
-                          item.format.some(format => selectedFormats.value.includes(format))
+    const matchesFormats = filterState.value.formats.length === 0 || 
+                          item.format.some(format => filterState.value.formats.includes(format))
     
-    const matchesPlatforms = selectedPlatforms.value?.length === 0 || 
-                           (item.platform && selectedPlatforms.value?.includes(item.platform))
+    const matchesPlatforms = !filterState.value.platforms?.length || 
+                           (item.platform && filterState.value.platforms.includes(item.platform))
     
-    const matchesTags = selectedTags.value?.length === 0 || 
-                       item.tags?.some(tag => selectedTags.value?.includes(tag))
+    const matchesTags = !filterState.value.tags?.length || 
+                       item.tags?.some(tag => filterState.value.tags?.includes(tag))
     
     return matchesSearch && matchesFormats && matchesPlatforms && matchesTags
   })
 })
 
 const clearFilters = () => {
-  searchQuery.value = ''
-  selectedFormats.value = []
-  selectedLanguages.value = []
-  selectedPlatforms.value = []
-  selectedTags.value = []
+  filterState.value = {
+    searchQuery: '',
+    formats: [],
+    languages: undefined,
+    platforms: undefined,
+    tags: undefined
+  }
 }
 </script>
 
@@ -103,7 +114,7 @@ const clearFilters = () => {
       <IconField>
         <InputIcon class="fas fa-magnifying-glass" />
         <InputText
-          v-model="searchQuery"
+          v-model="filterState.searchQuery"
           placeholder="Search resources..."
           class="w-full"
         />
@@ -119,7 +130,7 @@ const clearFilters = () => {
         <div class="flex flex-wrap items-center gap-4">
           <div v-for="format in availableFormats" :key="format" class="flex items-center">
             <Checkbox
-              v-model="selectedFormats"
+              v-model="filterState.formats"
               :value="format"
               :binary="false"
               class="mr-2"
@@ -129,49 +140,46 @@ const clearFilters = () => {
         </div>
 
         <!-- Language Filter -->
-        <div class="w-full sm:w-48">
-          <FloatLabel>
-            <MultiSelect
-              v-model="selectedLanguages"
-              filter
-              :options="availableLanguages"
-              class="w-full"
-              :max-selected-labels="2"
-            />
-            <label class="!left-0">Language</label>
-          </FloatLabel>
+        <div class="w-full sm:w-48 relative">
+          <label class="absolute -top-6 left-0 text-sm font-medium text-surface-400">Languages</label>
+          <MultiSelect
+            v-model="filterState.languages"
+            filter
+            :options="availableLanguages"
+            placeholder="Select Languages"
+            class="w-full"
+            :max-selected-labels="2"
+          />
         </div>
 
         <!-- Platform Filter -->
-        <div class="w-full sm:w-48">
-          <FloatLabel>
-            <MultiSelect
-              v-model="selectedPlatforms"
-              filter
-              :options="uniquePlatforms"
-              class="w-full"
-              :max-selected-labels="2"
-            />
-            <label class="!left-0">Platform</label>
-          </FloatLabel>
+        <div class="w-full sm:w-48 relative">
+          <label class="absolute -top-6 left-0 text-sm font-medium text-surface-400">Platforms</label>
+          <MultiSelect
+            v-model="filterState.platforms"
+            filter
+            placeholder="Select Platforms"
+            :options="uniquePlatforms"
+            class="w-full"
+            :max-selected-labels="2"
+          />
         </div>
 
         <!-- Tags Filter -->
-        <div class="w-full sm:w-48">
-          <FloatLabel>
-            <MultiSelect
-              v-model="selectedTags"
-              :options="uniqueTags"
-              class="w-full"
-              filter
-              :max-selected-labels="2"
-            />
-            <label class="!left-0">Tags</label>
-          </FloatLabel>
+        <div class="w-full sm:w-48 relative">
+          <label class="absolute -top-6 left-0 text-sm font-medium text-surface-400">Tags</label>
+          <MultiSelect
+            v-model="filterState.tags"
+            :options="uniqueTags"
+            placeholder="Select Tags"
+            class="w-full"
+            filter
+            :max-selected-labels="2"
+          />
         </div>
 
         <Button
-          v-if="searchQuery || selectedFormats.length > 0 || selectedLanguages?.length > 0 || selectedPlatforms?.length > 0 || selectedTags?.length > 0"
+          v-if="filterState.searchQuery || filterState.formats.length > 0 || (filterState.languages && filterState.languages.length > 0) || (filterState.platforms && filterState.platforms.length > 0) || (filterState.tags && filterState.tags.length > 0)"
           severity="danger"
           text
           class="w-full sm:w-auto"
@@ -186,18 +194,18 @@ const clearFilters = () => {
       <div class="mb-6">
         <div class="text-surface-400 text-sm sm:text-base">
           <span>Showing {{ filteredContent.length }} result{{ filteredContent.length === 1 ? '' : 's' }}</span>
-          <span v-if="searchQuery"> for "{{ searchQuery }}"</span>
-          <span v-if="selectedFormats.length > 0">
-            {{ searchQuery ? ' and' : ' for' }} {{ selectedFormats.join(', ') }}
+          <span v-if="filterState.searchQuery"> for "{{ filterState.searchQuery }}"</span>
+          <span v-if="filterState.formats.length > 0">
+            {{ filterState.searchQuery ? ' and' : ' for' }} {{ filterState.formats.join(', ') }}
           </span>
-          <span v-if="selectedLanguages && selectedLanguages.length > 0">
-            {{ searchQuery || selectedFormats.length > 0 ? ' and' : ' for' }} {{ selectedLanguages?.join(', ') }}
+          <span v-if="filterState.languages && filterState.languages.length > 0">
+            {{ filterState.searchQuery || filterState.formats.length > 0 ? ' and' : ' for' }} {{ filterState.languages.join(', ') }}
           </span>
-          <span v-if="selectedPlatforms && selectedPlatforms.length > 0">
-            {{ searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 ? ' and' : ' for' }} {{ selectedPlatforms?.join(', ') }}
+          <span v-if="filterState.platforms && filterState.platforms.length > 0">
+            {{ filterState.searchQuery || filterState.formats.length > 0 || (filterState.languages && filterState.languages.length > 0) ? ' and' : ' for' }} {{ filterState.platforms.join(', ') }}
           </span>
-          <span v-if="selectedTags && selectedTags.length > 0">
-            {{ searchQuery || selectedFormats.length > 0 || selectedLanguages?.length > 0 || selectedPlatforms?.length > 0 ? ' and' : ' for' }} {{ selectedTags?.join(', ') }}
+          <span v-if="filterState.tags && filterState.tags.length > 0">
+            {{ filterState.searchQuery || filterState.formats.length > 0 || (filterState.languages && filterState.languages.length > 0) || (filterState.platforms && filterState.platforms.length > 0) ? ' and' : ' for' }} {{ filterState.tags.join(', ') }}
           </span>
         </div>
       </div>
