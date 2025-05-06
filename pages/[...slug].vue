@@ -22,7 +22,7 @@ const handleExternalContent = () => {
 <template>
   <div>
     <!-- Content -->
-    <div v-if="content" class="max-w-4xl mx-auto">
+    <div v-if="content" class="mt-16">
       <!-- Title and Metadata -->
       <div class="mb-8">
         <h1 class="text-4xl font-bold mb-4">{{ content.title }}</h1>
@@ -49,7 +49,10 @@ const handleExternalContent = () => {
         <Tag v-for="tag in content.tags" :key="tag" severity="info" :value="tag" />
       </div>
 
-      <!-- Content or External Link -->
+      <div class="max-w-none">
+        <ContentRenderer class="prose prose-invert" :value="content" />
+      </div>
+
       <div v-if="content.url" class="text-center">
         <Button
           label="View Content"
@@ -57,9 +60,6 @@ const handleExternalContent = () => {
           class="text-lg px-6 py-3"
           @click="handleExternalContent"
         />
-      </div>
-      <div v-else class="prose prose-invert max-w-none">
-        <ContentRenderer :value="content" />
       </div>
     </div>
 
@@ -69,47 +69,3 @@ const handleExternalContent = () => {
     </div>
   </div>
 </template>
-
-<style>
-.prose {
-  @apply text-surface-200;
-}
-
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  @apply text-surface-100 font-bold;
-}
-
-.prose a {
-  @apply text-primary-400 hover:text-primary-300;
-}
-
-.prose code {
-  @apply bg-surface-800 text-surface-200 px-1 py-0.5 rounded;
-}
-
-.prose pre {
-  @apply bg-surface-800 text-surface-200 p-4 rounded-lg overflow-x-auto;
-}
-
-.prose blockquote {
-  @apply border-l-4 border-surface-600 pl-4 italic;
-}
-
-.prose ul,
-.prose ol {
-  @apply list-inside;
-}
-
-.prose ul {
-  @apply list-disc;
-}
-
-.prose ol {
-  @apply list-decimal;
-}
-</style> 

@@ -1,5 +1,6 @@
 import tailwindcssCaido from '@caido/tailwindcss';
 import tailwindcssPrimeui from 'tailwindcss-primeui';
+import typography from '@tailwindcss/typography';   
 
 export default {
     content: [
@@ -10,6 +11,7 @@ export default {
     darkMode: ["selector", "[data-mode='dark']"],
     plugins: [
         tailwindcssCaido,
-        tailwindcssPrimeui
+        tailwindcssPrimeui,
+        typography
     ]
 };

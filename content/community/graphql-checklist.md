@@ -9,10 +9,6 @@ author: "Security Researcher"
 platform: "GitHub"
 ---
 
-# GraphQL Security Checklist
-
-This checklist provides a comprehensive guide to securing GraphQL APIs.
-
 ## Authentication & Authorization
 
 - [ ] Implement proper authentication
@@ -32,4 +28,4 @@ This checklist provides a comprehensive guide to securing GraphQL APIs.
 - [ ] Use HTTPS
 - [ ] Implement proper error handling
 - [ ] Log security events
-- [ ] Regular security audits 
+- [ ] Regular security audits
