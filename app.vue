@@ -5,6 +5,8 @@ import '@/assets/css/index.css';
 <template>
   <div class="min-h-screen bg-surface-900 text-gray-100">
     <NuxtRouteAnnouncer />
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+definePageMeta({
+  layout: false
+})
+
 // We'll implement the search functionality later
 const searchQuery = ref('')
 const activeFilter = ref('all')

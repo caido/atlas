@@ -5,6 +5,7 @@ import { ref, computed, onMounted } from 'vue'
 import FloatLabel from 'primevue/floatlabel'
 import { useRoute } from 'vue-router'
 import { NuxtLink } from '#components'
+import { queryCollection } from '#imports'
 
 const searchQuery = ref('')
 const selectedFormats = ref<string[]>([])
@@ -12,17 +13,43 @@ const selectedLanguages = ref<string[]>([])
 const selectedPlatforms = ref<string[]>([])
 const selectedTags = ref<string[]>([])
 
-const availableFormats = ['Video', 'Article', 'Lab'] as const
+const availableFormats = ['video', 'article', 'lab'] as const
 const availableLanguages = ['English', 'French', 'Spanish', 'German', 'Japanese']
-const availablePlatforms = ['Security Academy', 'Cloud University', 'Tech Institute', 'Online Learning']
 
 // Parse query parameters and set initial values
 const route = useRoute()
 const formatMap = {
-  'videos': 'Video',
-  'articles': 'Article',
-  'labs': 'Lab'
+  'videos': 'video',
+  'articles': 'article',
+  'labs': 'lab'
 }
+
+// Fetch content using Nuxt Content
+const { data: content } = await useAsyncData('community-content', () => {
+  return queryCollection('community')
+    .all()
+})
+
+// Extract unique platforms and tags from content
+const uniquePlatforms = computed(() => {
+  if (!content.value) return []
+  const platforms = new Set<string>()
+  content.value.forEach(item => {
+    if (item.platform) platforms.add(item.platform)
+  })
+  return Array.from(platforms)
+})
+
+const uniqueTags = computed(() => {
+  if (!content.value) return []
+  const tags = new Set<string>()
+  content.value.forEach(item => {
+    if (item.tags) {
+      item.tags.forEach(tag => tags.add(tag))
+    }
+  })
+  return Array.from(tags)
+})
 
 onMounted(() => {
   // Set search query if present
@@ -40,37 +67,10 @@ onMounted(() => {
   }
 })
 
-const mockContent = [
-  {
-    path: '/',
-    title: 'Security Fundamentals',
-    author: 'John Doe',
-    platform: 'Security Academy',
-    description: 'A comprehensive guide to understanding basic security concepts and best practices.',
-    format: ['Video'],
-    tags: ['Security', 'Development']
-  },
-  {
-    path: '/',
-    title: 'Cloud Architecture Patterns',
-    author: 'Jane Smith',
-    platform: 'Cloud University',
-    description: 'Learn about modern cloud architecture patterns and their implementation.',
-    format: ['Article', 'Video'],
-    tags: ['Cloud', 'DevOps']
-  },
-  {
-    path: '/',
-    title: 'AI and Machine Learning Basics',
-    author: 'Alex Johnson',
-    description: 'Introduction to artificial intelligence and machine learning concepts.',
-    format: ['Article', 'Lab'],
-    tags: ['AI', 'Development']
-  }
-]
-
 const filteredContent = computed(() => {
-  return mockContent.filter(item => {
+  if (!content.value) return []
+  
+  return content.value.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
                          item.description.toLowerCase().includes(searchQuery.value.toLowerCase())
     
@@ -87,19 +87,6 @@ const filteredContent = computed(() => {
   })
 })
 
-const topTags = computed(() => {
-  const tagCounts = new Map<string, number>()
-  mockContent.forEach(item => {
-    item.tags.forEach(tag => {
-      tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)
-    })
-  })
-  return Array.from(tagCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([tag]) => tag)
-})
-
 const clearFilters = () => {
   searchQuery.value = ''
   selectedFormats.value = []
@@ -107,36 +94,10 @@ const clearFilters = () => {
   selectedPlatforms.value = []
   selectedTags.value = []
 }
-
-const openGithub = () => {
-  window.open('https://github.com/caido/atlas', '_blank')
-}
 </script>
 
 <template>
-  <div class="container mx-auto px-4 py-4 sm:py-8">
-    <!-- Header -->
-    <div class="flex flex-col lg:flex-row items-center justify-between gap-4 mb-6 sm:mb-8">
-      <NuxtLink to="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
-        <img src="/images/name.color.webp" alt="Logo" class="h-8" >
-        <span class="text-2xl relative top-0.5 text-surface-200">Atlas</span>
-      </NuxtLink>
-      <div class="flex flex-col-reverse sm:flex-row sm:items-center gap-4 sm:gap-6">
-        <Button 
-          icon="fa-solid fa-external-link" 
-          label="Submit a Resource" 
-          class="w-full sm:w-auto"
-          @click="openGithub"
-        />
-        <div class="flex flex-wrap gap-4 sm:gap-6">
-          <a href="https://docs.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Docs</a>
-          <a href="https://developer.caido.io/" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Developer</a>
-          <a href="https://caido.io/plugins" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Plugins</a>
-          <a href="https://caido.io/download" target="_blank" class="text-surface-400 hover:text-surface-200 transition-colors">Download</a>
-        </div>
-      </div>
-    </div>
-
+  <div>
     <!-- Search -->
     <div class="mb-6 sm:mb-8">
       <IconField>
@@ -187,7 +148,7 @@ const openGithub = () => {
             <MultiSelect
               v-model="selectedPlatforms"
               filter
-              :options="availablePlatforms"
+              :options="uniquePlatforms"
               class="w-full"
               :max-selected-labels="2"
             />
@@ -200,7 +161,7 @@ const openGithub = () => {
           <FloatLabel class="[&_label]:!left-0">
             <MultiSelect
               v-model="selectedTags"
-              :options="topTags"
+              :options="uniqueTags"
               class="w-full"
               filter
               :max-selected-labels="2"
@@ -222,7 +183,7 @@ const openGithub = () => {
       </div>
 
       <!-- Search Context -->
-      <div  class="mb-6">
+      <div class="mb-6">
         <div class="text-surface-400 text-sm sm:text-base">
           <span>Showing {{ filteredContent.length }} result{{ filteredContent.length === 1 ? '' : 's' }}</span>
           <span v-if="searchQuery"> for "{{ searchQuery }}"</span>
@@ -256,16 +217,16 @@ const openGithub = () => {
                 </span>
                 <div class="flex items-center gap-2">
                   <span v-for="format in item.format" :key="format" class="text-surface-400 text-base">
-                    <i v-if="format === 'Video'" v-tooltip.top="'Video'" class="fa-solid fa-video text-red-500"/>
-                    <i v-else-if="format === 'Article'" v-tooltip.top="'Article'" class="fa-solid fa-newspaper text-blue-500"/>
-                    <i v-else-if="format === 'Lab'" v-tooltip.top="'Lab'" class="fa-solid fa-flask text-green-500"/>
+                    <i v-if="format === 'video'" v-tooltip.top="'Video'" class="fa-solid fa-video text-red-500"/>
+                    <i v-else-if="format === 'article'" v-tooltip.top="'Article'" class="fa-solid fa-newspaper text-blue-500"/>
+                    <i v-else-if="format === 'lab'" v-tooltip.top="'Lab'" class="fa-solid fa-flask text-green-500"/>
                   </span>
                 </div>
               </div>
             </template>
             <template #subtitle>
               <div class="flex items-center gap-2 text-sm text-surface-400">
-                <span>By <span class="font-bold">{{ item.author }}</span></span>
+                <span v-if="item.author">By <span class="font-bold">{{ item.author }}</span></span>
                 <span v-if="item.platform">on <span class="font-bold">{{ item.platform }}</span></span>
               </div>
             </template>
