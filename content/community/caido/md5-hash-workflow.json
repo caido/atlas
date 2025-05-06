@@ -4,7 +4,6 @@
   "format": ["article"],
   "languages": ["en"],
   "tags": ["hash", "md5", "workflow", "automation"],
-  "author": "Caido Documentation",
-  "platform": "Caido",
+  "author": "Caido",
   "url": "https://docs.caido.io/tutorials/md5_hash.html"
 } 

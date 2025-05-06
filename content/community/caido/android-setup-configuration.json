@@ -4,7 +4,6 @@
   "format": ["article"],
   "languages": ["en"],
   "tags": ["android", "proxy", "configuration"],
-  "author": "Caido Documentation",
-  "platform": "Caido",
+  "author": "Caido",
   "url": "https://docs.caido.io/tutorials/android_configuration.html"
 } 

@@ -4,7 +4,6 @@
   "format": ["article"],
   "languages": ["en"],
   "tags": ["discord", "notification", "workflow", "automation", "integration"],
-  "author": "Caido Documentation",
-  "platform": "Caido",
+  "author": "Caido",
   "url": "https://docs.caido.io/tutorials/discord_notification.html"
 } 

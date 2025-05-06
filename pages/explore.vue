@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import IconField from 'primevue/iconfield'
-import Tag from 'primevue/tag'
 import { ref, computed, onMounted } from 'vue'
 import FloatLabel from 'primevue/floatlabel'
 import { useRoute } from 'vue-router'
-import { NuxtLink } from '#components'
 import { queryCollection } from '#imports'
+import ResourceCard from '~/components/ResourceCard.vue'
 
 const searchQuery = ref('')
 const selectedFormats = ref<string[]>([])
@@ -208,36 +207,7 @@ const clearFilters = () => {
         <p>No resources found matching your criteria.</p>
       </div>
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <NuxtLink v-for="item in filteredContent" :key="item.path" :to="item.path" class="block">
-          <Card class="h-full hover:bg-surface-400/20 transition-colors cursor-pointer" pt:caption:class="flex flex-col">
-            <template #title>
-              <div class="flex items-center justify-between">
-                <span class="text-lg font-medium">
-                  {{ item.title }}
-                </span>
-                <div class="flex items-center gap-2">
-                  <span v-for="format in item.format" :key="format" class="text-surface-400 text-base">
-                    <i v-if="format === 'video'" v-tooltip.top="'Video'" class="fa-solid fa-video text-red-500"/>
-                    <i v-else-if="format === 'article'" v-tooltip.top="'Article'" class="fa-solid fa-newspaper text-blue-500"/>
-                    <i v-else-if="format === 'lab'" v-tooltip.top="'Lab'" class="fa-solid fa-flask text-green-500"/>
-                  </span>
-                </div>
-              </div>
-            </template>
-            <template #subtitle>
-              <div class="flex items-center gap-2 text-sm text-surface-400">
-                <span v-if="item.author">By <span class="font-bold">{{ item.author }}</span></span>
-                <span v-if="item.platform">on <span class="font-bold">{{ item.platform }}</span></span>
-              </div>
-            </template>
-            <template #content>
-              <p class="text-surface-200 my-4">{{ item.description }}</p>
-              <div class="flex flex-wrap gap-2">
-                <Tag v-for="tag in item.tags" :key="tag" severity="info" :value="tag" />
-              </div>
-            </template>
-          </Card>
-        </NuxtLink>
+        <ResourceCard v-for="item in filteredContent" :key="item.path" :item="item" />
       </div>
     </div>
   </div>
