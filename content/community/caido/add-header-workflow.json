@@ -1,0 +1,10 @@
+{
+  "title": "Add Header Workflow",
+  "description": "Learn how to automatically add custom headers to requests using passive workflows.",
+  "format": ["article"],
+  "languages": ["en"],
+  "tags": ["header", "workflow", "automation", "request"],
+  "author": "Caido Documentation",
+  "platform": "Caido",
+  "url": "https://docs.caido.io/tutorials/add_header.html"
+} 

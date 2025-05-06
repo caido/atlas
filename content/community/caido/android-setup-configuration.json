@@ -1,0 +1,10 @@
+{
+  "title": "Android Setup and Configuration Guide",
+  "description": "Complete guide for setting up and configuring Android devices for security testing and traffic analysis.",
+  "format": ["article"],
+  "languages": ["en"],
+  "tags": ["android", "proxy", "configuration"],
+  "author": "Caido Documentation",
+  "platform": "Caido",
+  "url": "https://docs.caido.io/tutorials/android_configuration.html"
+} 

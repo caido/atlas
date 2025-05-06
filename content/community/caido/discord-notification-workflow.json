@@ -1,0 +1,10 @@
+{
+  "title": "Discord Notification Workflow",
+  "description": "Set up automated notifications to Discord channels for security testing events and findings.",
+  "format": ["article"],
+  "languages": ["en"],
+  "tags": ["discord", "notification", "workflow", "automation", "integration"],
+  "author": "Caido Documentation",
+  "platform": "Caido",
+  "url": "https://docs.caido.io/tutorials/discord_notification.html"
+} 

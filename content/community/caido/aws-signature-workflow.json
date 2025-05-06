@@ -1,0 +1,10 @@
+{
+  "title": "AWS Signature Workflow",
+  "description": "Learn how to automate AWS request signing and authentication in your security testing workflows.",
+  "format": ["article"],
+  "languages": ["en"],
+  "tags": ["aws", "signature", "workflow", "automation", "cloud"],
+  "author": "Caido Documentation",
+  "platform": "Caido",
+  "url": "https://docs.caido.io/tutorials/aws_signature.html"
+} 

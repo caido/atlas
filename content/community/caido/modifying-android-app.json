@@ -1,0 +1,10 @@
+{
+  "title": "Modifying Android Applications for Testing",
+  "description": "Step-by-step guide for modifying Android applications to enable security testing and traffic analysis.",
+  "format": ["article"],
+  "languages": ["en"],
+  "tags": ["android", "app", "modification"],
+  "author": "Caido Documentation",
+  "platform": "Caido",
+  "url": "https://docs.caido.io/tutorials/android_configuration.html"
+} 

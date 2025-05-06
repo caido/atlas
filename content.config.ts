@@ -4,13 +4,15 @@ export default defineContentConfig({
   collections: {
     community: defineCollection({
       type: 'page',
-      source: '**/*.md',
+      source: '**/*.{md,json}',
       schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        author: z.string(),
+        platform: z.string(),
         format: z.array(z.enum(['article', 'video', 'lab'])),
         languages: z.array(z.string()),
         tags: z.array(z.string()),
-        author: z.string(),
-        platform: z.string(),
         url: z.string(),
       }),
     }),

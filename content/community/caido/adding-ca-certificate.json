@@ -1,0 +1,10 @@
+{
+  "title": "Adding a CA Certificate to the System-Store",
+  "description": "Learn how to add a CA certificate to the Android system store for proper HTTPS traffic interception.",
+  "format": ["article"],
+  "languages": ["en"],
+  "tags": ["android", "certificate", "security"],
+  "url": "https://docs.caido.io/tutorials/android_configuration.html",
+  "author": "Caido Documentation",
+  "platform": "Caido"
+} 

@@ -1,0 +1,10 @@
+{
+  "title": "Color Requests Workflow",
+  "description": "Create visual indicators for different types of requests using color-coding in passive workflows.",
+  "format": ["article"],
+  "languages": ["en"],
+  "tags": ["visualization", "workflow", "automation", "request"],
+  "author": "Caido Documentation",
+  "platform": "Caido",
+  "url": "https://docs.caido.io/tutorials/color_requests.html"
+} 
