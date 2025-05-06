@@ -2,15 +2,16 @@
 import IconField from 'primevue/iconfield'
 import { ref, computed, onMounted } from 'vue'
 import FloatLabel from 'primevue/floatlabel'
+import MultiSelect from 'primevue/multiselect'
 import { useRoute } from 'vue-router'
 import { queryCollection } from '#imports'
 import ResourceCard from '~/components/ResourceCard.vue'
 
 const searchQuery = ref('')
 const selectedFormats = ref<string[]>([])
-const selectedLanguages = ref<string[]>([])
-const selectedPlatforms = ref<string[]>([])
-const selectedTags = ref<string[]>([])
+const selectedLanguages = ref<string[]>()
+const selectedPlatforms = ref<string[]>()
+const selectedTags = ref<string[]>()
 
 const availableFormats = ['video', 'article', 'lab'] as const
 const availableLanguages = ['English', 'French', 'Spanish', 'German', 'Japanese']
@@ -76,11 +77,11 @@ const filteredContent = computed(() => {
     const matchesFormats = selectedFormats.value.length === 0 || 
                           item.format.some(format => selectedFormats.value.includes(format))
     
-    const matchesPlatforms = selectedPlatforms.value.length === 0 || 
-                           (item.platform && selectedPlatforms.value.includes(item.platform))
+    const matchesPlatforms = selectedPlatforms.value?.length === 0 || 
+                           (item.platform && selectedPlatforms.value?.includes(item.platform))
     
-    const matchesTags = selectedTags.value.length === 0 || 
-                       item.tags.some(tag => selectedTags.value.includes(tag))
+    const matchesTags = selectedTags.value?.length === 0 || 
+                       item.tags?.some(tag => selectedTags.value?.includes(tag))
     
     return matchesSearch && matchesFormats && matchesPlatforms && matchesTags
   })
@@ -129,7 +130,7 @@ const clearFilters = () => {
 
         <!-- Language Filter -->
         <div class="w-full sm:w-48">
-          <FloatLabel class="[&_label]:!left-0">
+          <FloatLabel>
             <MultiSelect
               v-model="selectedLanguages"
               filter
@@ -137,13 +138,13 @@ const clearFilters = () => {
               class="w-full"
               :max-selected-labels="2"
             />
-            <label>Language</label>
+            <label class="!left-0">Language</label>
           </FloatLabel>
         </div>
 
         <!-- Platform Filter -->
         <div class="w-full sm:w-48">
-          <FloatLabel class="[&_label]:!left-0">
+          <FloatLabel>
             <MultiSelect
               v-model="selectedPlatforms"
               filter
@@ -151,13 +152,13 @@ const clearFilters = () => {
               class="w-full"
               :max-selected-labels="2"
             />
-            <label>Platform</label>
+            <label class="!left-0">Platform</label>
           </FloatLabel>
         </div>
 
         <!-- Tags Filter -->
         <div class="w-full sm:w-48">
-          <FloatLabel class="[&_label]:!left-0">
+          <FloatLabel>
             <MultiSelect
               v-model="selectedTags"
               :options="uniqueTags"
@@ -165,12 +166,12 @@ const clearFilters = () => {
               filter
               :max-selected-labels="2"
             />
-            <label>Tags</label>
+            <label class="!left-0">Tags</label>
           </FloatLabel>
         </div>
 
         <Button
-          v-if="searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 || selectedPlatforms.length > 0 || selectedTags.length > 0"
+          v-if="searchQuery || selectedFormats.length > 0 || selectedLanguages?.length > 0 || selectedPlatforms?.length > 0 || selectedTags?.length > 0"
           severity="danger"
           text
           class="w-full sm:w-auto"
@@ -189,14 +190,14 @@ const clearFilters = () => {
           <span v-if="selectedFormats.length > 0">
             {{ searchQuery ? ' and' : ' for' }} {{ selectedFormats.join(', ') }}
           </span>
-          <span v-if="selectedLanguages.length > 0">
-            {{ searchQuery || selectedFormats.length > 0 ? ' and' : ' for' }} {{ selectedLanguages.join(', ') }}
+          <span v-if="selectedLanguages && selectedLanguages.length > 0">
+            {{ searchQuery || selectedFormats.length > 0 ? ' and' : ' for' }} {{ selectedLanguages?.join(', ') }}
           </span>
-          <span v-if="selectedPlatforms.length > 0">
-            {{ searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 ? ' and' : ' for' }} {{ selectedPlatforms.join(', ') }}
+          <span v-if="selectedPlatforms && selectedPlatforms.length > 0">
+            {{ searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 ? ' and' : ' for' }} {{ selectedPlatforms?.join(', ') }}
           </span>
-          <span v-if="selectedTags.length > 0">
-            {{ searchQuery || selectedFormats.length > 0 || selectedLanguages.length > 0 || selectedPlatforms.length > 0 ? ' and' : ' for' }} {{ selectedTags.join(', ') }}
+          <span v-if="selectedTags && selectedTags.length > 0">
+            {{ searchQuery || selectedFormats.length > 0 || selectedLanguages?.length > 0 || selectedPlatforms?.length > 0 ? ' and' : ' for' }} {{ selectedTags?.join(', ') }}
           </span>
         </div>
       </div>
