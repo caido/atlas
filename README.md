@@ -37,7 +37,8 @@ To contribute content to Caido Atlas:
   "languages": ["en"],
   "tags": ["tag1", "tag2"],
   "author": "Your Name",
-  "url": "https://example.com"
+  "url": "https://example.com",
+  "publishedAt": "2025-05-06"
 }
 ```
 
@@ -50,6 +51,7 @@ Required fields:
 - `tags`: Array of relevant tags for discoverability
 - `author`: Your name or organization
 - `url`: The URL where the content can be found
+- `publishedAt`: Date when the resource is published to Caido Atlas (yyyy-mm-dd)
 
 3. Submit a pull request with your changes.
 
