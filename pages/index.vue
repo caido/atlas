@@ -56,11 +56,17 @@ const handleFilterClick = (filterId: string) => {
           />
           <Button
             class="flex items-center gap-2"
+            label="Search"
+            icon="fa-solid fa-search"
             @click="handleSearch"
-          >
-            <i class="fa-solid fa-search"/>
-            <span>Search</span>
-          </Button>
+          />
+          <Button
+            severity="contrast"
+            class="flex items-center gap-2"
+            icon="fa-solid fa-compass"
+            label="Explore"
+            @click="navigateTo('/explore')"
+          />
         </div>
       </div>
 
