@@ -23,7 +23,6 @@ const filterState = ref<FilterState>({
 })
 
 const availableFormats = ['video', 'article', 'lab'] as const
-const availableLanguages = ['English', 'French', 'Spanish', 'German', 'Japanese']
 
 // Parse query parameters and set initial values
 const route = useRoute()
@@ -48,6 +47,17 @@ const uniquePlatforms = computed(() => {
     if (item.platform) platforms.add(item.platform)
   })
   return Array.from(platforms)
+})
+
+const uniqueLanguages = computed(() => {
+  if (!content.value) return []
+  const languages = new Set<string>()
+  content.value.forEach(item => {
+    if (item.languages) {
+      item.languages.forEach(lang => languages.add(lang))
+    }
+  })
+  return Array.from(languages)
 })
 
 const uniqueTags = computed(() => {
@@ -146,7 +156,7 @@ const clearFilters = () => {
           <MultiSelect
             v-model="filterState.languages"
             filter
-            :options="availableLanguages"
+            :options="uniqueLanguages"
             placeholder="Select Languages"
             class="w-full"
             :max-selected-labels="2"
